@@ -60,7 +60,7 @@ function format() {
 }
 
 // Connects Bot
-var bot = new Eris.CommandClient("NjQ1NjAxMzAzODg3NjA5ODc2.XdE9HA.x196MuW_yNhXPtfrLGZJCEuVxMs", {
+var bot = new Eris.CommandClient("HAHAHA", {
     defaultImageFormat: "png",
     defaultImageSize: 2048,
 }, {
