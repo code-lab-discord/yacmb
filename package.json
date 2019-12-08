@@ -1,0 +1,23 @@
+{
+  "name": "clbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "eris": "^0.11.0",
+    "erlpack": "github:abalabahaha/erlpack",
+    "eventemitter3": "^4.0.0",
+    "mongoose": "^5.7.11",
+    "node-opus": "^0.3.3",
+    "sodium-native": "^2.4.6",
+    "ytdl": "^0.13.1",
+    "ytdl-core": "^1.0.1",
+    "zlib-sync": "^0.1.6"
+  }
+}
