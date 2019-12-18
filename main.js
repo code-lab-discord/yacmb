@@ -337,8 +337,7 @@ bot.registerCommand('membercount', (msg) => {
             memC++;
         }
     });
-    bot.createMessage(msg.channel.id, `${msg.channel.guild.name} currently has ${memC} users with who have accepted the rules...`);
-    bot.createMessage(msg.channel.id, `...and ${msg.channel.guild.memberCount} members in total!`);
+    bot.createMessage(msg.channel.id, `${msg.channel.guild.name} currently has ${memC} users who have accepted the rules and ${msg.channel.guild.memberCount} members in total!`);
 }, {
     description: "Prints the member count of the server.",
     fullDescription: "Prints the member count of the server"
