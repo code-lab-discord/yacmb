@@ -331,7 +331,14 @@ bot.registerCommand('hello', (msg) => {
 });
 
 bot.registerCommand('membercount', (msg) => {
-    bot.createMessage(msg.channel.id, `${msg.channel.guild.name} currently has ${msg.channel.guild.memberCount} members!`);
+    memC = 0;
+    msg.channel.guild.members.forEach(member => {
+        if (member.roles.includes('645508952825528320')) {
+            memC++;
+        }
+    });
+    bot.createMessage(msg.channel.id, `${msg.channel.guild.name} currently has ${memC} users with who have accepted the rules...`);
+    bot.createMessage(msg.channel.id, `...and ${msg.channel.guild.memberCount} members in total!`);
 }, {
     description: "Prints the member count of the server.",
     fullDescription: "Prints the member count of the server"
@@ -627,19 +634,6 @@ bot.registerCommand('delwarn', (msg, args) => {
     argsRequired: true,
     hidden: true,
     usage: '\n **Usage** - .warn `{@User}`'
-});
-
-bot.registerCommand('rolecount', (msg) => {
-    memC = 0;
-    msg.channel.guild.members.forEach(member => {
-        if (member.roles.includes('645508952825528320')) {
-            memC++;
-        }
-    });
-    bot.createMessage(msg.channel.id, `${msg.channel.guild.name} currently has ${memC} members!`);
-}, {
-    description: "Prints the member count of the server.",
-    fullDescription: "Prints the member count of the server, only members who have the `Member` role"
 });
 
 bot.registerCommand('speak', (msg, args) => {
