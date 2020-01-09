@@ -343,6 +343,13 @@ bot.registerCommand('membercount', (msg) => {
     fullDescription: "Prints the member count of the server"
 });
 
+bot.registerCommand('eta', (msg) => {
+    bot.createMessage(msg.channel.id, `Febuary 32nd`);
+}, {
+    description: "eta wen?",
+    fullDescription: "eta wen?"
+});
+    
 bot.registerCommand('info', (msg) => {
     bot.createMessage(msg.channel.id, {
         embed: {
