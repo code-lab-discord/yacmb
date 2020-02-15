@@ -1,18 +1,52 @@
 const Eris = require("eris");
 const ytdl = require('ytdl-core');
-const mongoose = require('mongoose');
 
 // Env
 require('dotenv').config();
 
-// DB
-require('./db');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/yacmb', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
 
-// Models
-var warn = mongoose.model('Warn');
-var hackban = mongoose.model('Hackban');
-var mute = mongoose.model('Mute');
-var leader = mongoose.model('Leaderboard');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('DB Ready!');
+});
+
+var warnSchema = new mongoose.Schema({
+    userID: String,
+    modUserID: String,
+    reason: String
+});
+
+var muteSchema = new mongoose.Schema({
+    userID: String,
+    modUserID: String,
+    reason: String
+});
+
+var hackbanSchema = new mongoose.Schema({
+    userID: String,
+    modUserID: String,
+    reason: String
+});
+
+var leaderboardSchema = new mongoose.Schema({
+    userID: String,
+    points: Number
+});
+
+var warn = mongoose.model('warn', warnSchema);
+
+var hackban = mongoose.model('hackban', hackbanSchema);
+
+var mute = mongoose.model('mute', muteSchema);
+
+var leader = mongoose.model('leaderboard', leaderboardSchema);
 
 var discordMention = new RegExp(/[<>@]/g);
 
@@ -215,7 +249,7 @@ bot.registerCommand('hackban', (msg, args) => {
 });
 
 bot.registerCommand('warn', (msg, args) => {
-    if (1) { // msg.member.roles.includes('645845523332595752')) {
+    if (msg.member.roles.includes('645845523332595752')) {
         if (discordMention.test(args[0])) {
             var reason = 'With reason: ';
             if (args.length == 1) {
