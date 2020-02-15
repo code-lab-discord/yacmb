@@ -1,5 +1,9 @@
 const Eris = require("eris");
 const ytdl = require('ytdl-core');
+
+// Env
+require('dotenv').config();
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/yacmb', {
     useNewUrlParser: true,
@@ -60,7 +64,7 @@ function format() {
 }
 
 // Connects Bot
-var bot = new Eris.CommandClient("HAHAHA", {
+var bot = new Eris.CommandClient(process.env.BOT_TOKEN, {
     defaultImageFormat: "png",
     defaultImageSize: 2048,
 }, {
