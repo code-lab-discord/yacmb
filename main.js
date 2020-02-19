@@ -133,11 +133,8 @@ bot.registerCommand('help', async (msg, args) => {
                 }
             }
         };
-        let commands = formatCommands(bot.commands);
-        for (let command of commands) {
-            helpEmbed.embed.fields.push(command);
-        }
 
+        helpEmbed.embed.fields = formatCommands(bot.commands);
         bot.createMessage(msg.channel.id, helpEmbed);
     } else if (bot.commands[args[0]]) {
         let aliases = getAliases(bot.commands[args[0]]);
