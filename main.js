@@ -2,6 +2,8 @@ const Eris = require("eris");
 const ytdl = require('ytdl-core');
 const mongoose = require('mongoose');
 
+const { formatCommands, getAliases, getUsage } = require('./util/HelpUtil');
+
 // Env
 require('dotenv').config();
 
@@ -89,28 +91,17 @@ bot.registerCommand('help', async (msg, args) => {
                 }
             }
         };
-        Object.entries(bot.commands).forEach(entry => {
-            if (!entry[1].hidden || msg.member.roles.includes('645568403276300299')) {
-                helpEmbed.embed.fields.push({
-                    name: `.${entry[0]}`,
-                    value: entry[1].description
-                });
-            }
-        });
+
+        helpEmbed.embed.fields = formatCommands(bot.commands);
         bot.createMessage(msg.channel.id, helpEmbed);
     } else if (bot.commands[args[0]]) {
-        var aliases = '';
-        if (bot.commands[args[0]].aliases.length != 0) {
-            aliases = '\n **Aliases**: ';
-            bot.commands[args[0]].aliases.forEach(alias => {
-                aliases = aliases + `.${alias} `;
-            });
-        }
-        var usage = '';
-        if (bot.commands[args[0]].usage) {
-            usage = `\n **Usage**: ${bot.commands[args[0]].usage}`;
-        }
-        bot.createMessage(msg.channel.id, `**.${bot.commands[args[0]].label}** - ${bot.commands[args[0]].fullDescription} ${bot.commands[args[0]].usage} ${aliases}`);
+        let aliases = getAliases(bot.commands[args[0]]);
+        let usage = getUsage(bot.commands[args[0]]);
+
+        bot.createMessage(msg.channel.id, `**.${bot.commands[args[0]].label}** - `
+                                        + `${bot.commands[args[0]].fullDescription} `
+                                        + `${usage} `
+                                        + `${aliases}`);
     } else {
         bot.createMessage(msg.channel.id, 'Command does not exist.');
     }
