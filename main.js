@@ -74,6 +74,50 @@ bot.registerCommand("ping", async (msg) => {
     fullDescription: "This command could be used to check if the bot is responding and the bot's latency."
 });
 
+/**
+ * Reformat commands object for help embed
+ * 
+ * TODO: Re-add role check
+ * 
+ * @param {Object} commands commands object
+ */
+const formatCommands = commands => {
+    let cmds = Object.entries(commands)
+                .flat()
+                .filter((cmd) => cmd.hidden === false);
+
+    return cmds.map((cmd) => ({
+        name: `.${cmd.label}`,
+        value: cmd.description
+    }));
+};
+
+/**
+ * Get aliases of command
+ * 
+ * @param {Object} command command object
+ */
+const getAliases = command => {
+    if (command.aliases.length < 1)
+        return ""; 
+    
+    let aliases = "";
+    for (let alias of command.aliases) {
+        aliases += `.${alias}`;
+    }
+
+    return aliases;
+};
+
+/**
+ * Get command usage
+ * 
+ * @param {Object} command command object
+ */
+const getUsage = command => {
+    return `\n **Usage**: ${command.usage}`;
+}
+
 bot.registerCommand('help', async (msg, args) => {
     if (args.length === 0) {
         var helpEmbed = {
@@ -89,28 +133,22 @@ bot.registerCommand('help', async (msg, args) => {
                 }
             }
         };
-        Object.entries(bot.commands).forEach(entry => {
-            if (!entry[1].hidden || msg.member.roles.includes('645568403276300299')) {
-                helpEmbed.embed.fields.push({
-                    name: `.${entry[0]}`,
-                    value: entry[1].description
-                });
-            }
-        });
+        let commands = formatCommands(bot.commands);
+        for (let command of commands) {
+            helpEmbed.embed.fields.push(command);
+        }
+
         bot.createMessage(msg.channel.id, helpEmbed);
     } else if (bot.commands[args[0]]) {
-        var aliases = '';
-        if (bot.commands[args[0]].aliases.length != 0) {
-            aliases = '\n **Aliases**: ';
-            bot.commands[args[0]].aliases.forEach(alias => {
-                aliases = aliases + `.${alias} `;
-            });
-        }
-        var usage = '';
-        if (bot.commands[args[0]].usage) {
-            usage = `\n **Usage**: ${bot.commands[args[0]].usage}`;
-        }
-        bot.createMessage(msg.channel.id, `**.${bot.commands[args[0]].label}** - ${bot.commands[args[0]].fullDescription} ${bot.commands[args[0]].usage} ${aliases}`);
+        let aliases = getAliases(bot.commands[args[0]]);
+        let usage = '';
+        if (bot.commands[args[0]].usage)
+            usage = getUsage(bot.commands[args[0]]);
+
+        bot.createMessage(msg.channel.id, `**.${bot.commands[args[0]].label}** - `
+                                        + `${bot.commands[args[0]].fullDescription} `
+                                        + `${bot.commands[args[0]].usage} `
+                                        + `${aliases}`);
     } else {
         bot.createMessage(msg.channel.id, 'Command does not exist.');
     }
