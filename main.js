@@ -115,6 +115,8 @@ const getAliases = command => {
  * @param {Object} command command object
  */
 const getUsage = command => {
+    if (!command.usage)
+        return "";
     return `\n **Usage**: ${command.usage}`;
 }
 
@@ -138,13 +140,11 @@ bot.registerCommand('help', async (msg, args) => {
         bot.createMessage(msg.channel.id, helpEmbed);
     } else if (bot.commands[args[0]]) {
         let aliases = getAliases(bot.commands[args[0]]);
-        let usage = '';
-        if (bot.commands[args[0]].usage)
-            usage = getUsage(bot.commands[args[0]]);
+        let usage = getUsage(bot.commands[args[0]]);
 
         bot.createMessage(msg.channel.id, `**.${bot.commands[args[0]].label}** - `
                                         + `${bot.commands[args[0]].fullDescription} `
-                                        + `${bot.commands[args[0]].usage} `
+                                        + `${usage} `
                                         + `${aliases}`);
     } else {
         bot.createMessage(msg.channel.id, 'Command does not exist.');
