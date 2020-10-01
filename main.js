@@ -205,6 +205,32 @@ bot.registerCommand('hackban', (msg, args) => {
     argsRequired: true
 });
 
+bot.registerCommand('pull', (msg) => {
+    if (msg.member.roles.includes('645845523332595752')) {
+        var o_date = new Intl.DateTimeFormat;
+        var f_date = (m_ca, m_it) => Object({...m_ca, [m_it.type]: m_it.value});
+        var m_date = o_date.formatToParts().reduce(f_date, {});
+        bot.createMessage('645980981144322058', `**<@${msg.member.id}>** pulled from code-lab-discord/yacmb on ${m_date.day + '-' + m_date.month + '-' + m_date.year}`);
+        msg.addReaction('👍');
+        var util = require('util'),
+            exec = require('child_process').exec,
+            child,
+
+        child = exec('git pull',
+            function (error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+        });
+    }
+}, {
+    description: 'Admin Only, pulls the latest from code-lab-discord/yacmb',
+    hidden: true,
+    argsRequired: false
+});
+
 bot.registerCommand('warn', (msg, args) => {
     if (msg.member.roles.includes('645845523332595752')) {
         if (discordMention.test(args[0])) {
