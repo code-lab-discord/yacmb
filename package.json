@@ -14,7 +14,7 @@
     "eris": "^0.11.0",
     "erlpack": "github:abalabahaha/erlpack",
     "eventemitter3": "^4.0.0",
-    "mongoose": "^5.7.11",
+    "mongoose": "^5.13.15",
     "node-opus": "^0.3.3",
     "sodium-native": "^2.4.6",
     "ytdl": "^0.13.1",
